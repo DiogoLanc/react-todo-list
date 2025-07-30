@@ -4,6 +4,12 @@ import { AddButton } from "./components/AddButton";
 import { TaskForm } from "./components/TaskForm";
 import { TaskList } from "./components/TaskList";
 import { Form, Comment } from "./types/types";
+import {
+  createTaskAPI,
+  deleteTaskAPI,
+  getTasksAPI,
+  updateTaskAPI,
+} from "./api/api";
 
 const App = () => {
   const [toDos, setToDos] = useState<Comment[]>([]);
@@ -17,10 +23,16 @@ const App = () => {
   >(null);
 
   useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/comments?_limit=3")
-      .then((res) => res.json())
-      .then((data) => setToDos(data))
-      .catch((err) => console.error("Error fetching data", err));
+    const fetchTasks = async () => {
+      try {
+        const data = await getTasksAPI();
+        setToDos(data);
+      } catch (err) {
+        console.error("Error fetching tasks", err);
+      }
+    };
+
+    fetchTasks();
   }, []);
 
   const addTask = () => {
@@ -70,19 +82,18 @@ const App = () => {
     setEditingTask({ ...taskEdit, index });
   };
 
-  const deleteTask = (id: number) => {
-    fetch(`https://jsonplaceholder.typicode.com/comments/${id}`, {
-      method: "DELETE",
-    })
-      .then(() => {
-        setToDos(toDos.filter((toDo) => toDo.id !== id));
-      })
-      .catch((err) => {
-        console.error("Error deleting task:", err);
-      });
+  const deleteTask = async (id: number) => {
+    try {
+      await deleteTaskAPI(id);
+      setToDos(toDos.filter((task) => task.id !== id));
+    } catch (error) {
+      console.error("Error deleting task:", error);
+    }
   };
 
-  const saveTask = (ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const saveTask = async (
+    ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     ev.preventDefault();
 
     if (!formData) return;
@@ -96,55 +107,33 @@ const App = () => {
       return;
     }
 
-    if (editingTask) {
-      const updatedToDo: Comment = {
-        ...formData,
-        id: editingTask.id,
-      };
+    try {
+      if (editingTask) {
+        const updatedTask = await updateTaskAPI(editingTask.id, formData);
+        const updatedToDos = [...toDos];
+        updatedToDos[editingTask.index] = updatedTask;
+        setToDos(updatedToDos);
+        setEditingTask(null);
+      } else {
+        const newTask = await createTaskAPI(formData);
 
-      fetch(`https://jsonplaceholder.typicode.com/comments/${editingTask.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedToDo),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          const updatedToDos = [...toDos];
-          updatedToDos[editingTask.index] = data;
-          setToDos(updatedToDos);
-          setEditingTask(null);
-        });
-    } else {
-      const newToDo: Form = {
-        ...formData,
-      };
+        const maxId =
+          toDos.length > 0 ? Math.max(...toDos.map((t) => t.id)) : 0;
 
-      fetch("https://jsonplaceholder.typicode.com/comments", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newToDo),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          const maxId =
-            toDos.length > 0 ? Math.max(...toDos.map((t) => t.id)) : 0;
+        const finalToDo: Comment = {
+          ...newTask,
+          id: maxId + 1,
+        };
 
-          const finalToDo: Comment = {
-            ...data,
-            id: maxId + 1,
-          };
+        setToDos([...toDos, finalToDo]);
+      }
 
-          setToDos([...toDos, finalToDo]);
-        });
+      setShowForm(false);
+      setFormData({ body: "", email: "", name: "" });
+      setShowAddButton(true);
+    } catch (error) {
+      console.error("Error saving task:", error);
     }
-
-    setShowForm(false);
-    setFormData({ body: "", email: "", name: "" });
-    setShowAddButton(true);
   };
 
   return (
