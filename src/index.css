@@ -1,0 +1,97 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  background-color: #e2e2e2;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+.button-add {
+  padding: 10px 16px;
+  background-color: #7c0101;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.button-add:hover {
+  background-color: #7c0101c5;
+}
+
+.button-save {
+  padding: 10px 16px;
+  background-color: #15a82e;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.button-save:hover {
+  background-color: #15a82eb9;
+}
+
+.button-cancel {
+  padding: 10px 16px;
+  background-color: #d10e0e;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.button-cancel:hover {
+  background-color: #d10e0ecb;
+}
+
+input {
+  font-size: 20px;
+  padding: 10px;
+  border: 1px solid;
+}
+
+.button-delete {
+  padding: 10px 16px;
+  background-color: #ff1f1f;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.button-delete:hover {
+  background-color: #ff1f1fb0;
+}
+
+.button-edit {
+  padding: 10px 16px;
+  background-color: #337bff;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.button-edit:hover {
+  background-color: #337affc2;
+}
