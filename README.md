@@ -14,7 +14,7 @@ It was created to practice and apply React concepts such as:
 - Add, edit, and delete tasks  
 - Form validation (required fields and email format)  
 - Loading and error UI messages  
-- Data persistence with a local server using `json-server` (db.json)
+- Data persistence with a local server using `json-server` ('db.json')
 
 ---
 
