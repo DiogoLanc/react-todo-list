@@ -7,10 +7,14 @@ It was created to practice and apply React concepts such as:
 - React Hooks 
 - Conditional rendering
 - Basic form validation
-- API interaction 
+- API interaction
 
-At the moment, the project allows you to **add**, **edit**, and **delete** tasks.  
-Data is fetched and updated using a mock API for demonstration purposes.
+## Some Features
+
+- Add, edit, and delete tasks  
+- Form validation (required fields and email format)  
+- Loading and error UI messages  
+- Data persistence with a local server using `json-server`
 
 ---
 
