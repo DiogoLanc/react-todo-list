@@ -22,13 +22,20 @@ const App = () => {
     (Comment & { index: number }) | null
   >(null);
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [fetchError, setFetchError] = useState("");
+
   useEffect(() => {
     const fetchTasks = async () => {
       try {
+        setIsLoading(true);
         const data = await getTasksAPI();
         setToDos(data);
       } catch (err) {
         console.error("Error fetching tasks", err);
+        setFetchError("Failed to load tasks.");
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -115,17 +122,11 @@ const App = () => {
         setToDos(updatedToDos);
         setEditingTask(null);
       } else {
-        const newTask = await createTaskAPI(formData);
+        const lastId =
+          toDos.length > 0 ? Math.max(...toDos.map((t) => Number(t.id))) : 0;
+        const newTask = await createTaskAPI(formData, lastId);
 
-        const maxId =
-          toDos.length > 0 ? Math.max(...toDos.map((t) => t.id)) : 0;
-
-        const finalToDo: Comment = {
-          ...newTask,
-          id: maxId + 1,
-        };
-
-        setToDos([...toDos, finalToDo]);
+        setToDos([...toDos, newTask]);
       }
 
       setShowForm(false);
@@ -139,8 +140,22 @@ const App = () => {
   return (
     <div>
       <h1 style={{ textAlign: "center" }}>To-Do List</h1>
-
-      {showForm && formData ? (
+      {isLoading ? (
+        <p style={{ textAlign: "center", fontSize: "20px", marginTop: "80px" }}>
+          Loading tasks...
+        </p>
+      ) : fetchError ? (
+        <p
+          style={{
+            color: "red",
+            textAlign: "center",
+            fontSize: "20px",
+            marginTop: "80px",
+          }}
+        >
+          {fetchError}
+        </p>
+      ) : showForm && formData ? (
         <TaskForm
           formData={formData}
           setFormData={setFormData}

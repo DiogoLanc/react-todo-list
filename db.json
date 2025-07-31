@@ -1,0 +1,22 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "body": "Buy groceries",
+      "email": "john@example.com",
+      "name": "John"
+    },
+    {
+      "id": 2,
+      "body": "Finish thesis",
+      "email": "bruno@example.com",
+      "name": "Bruno"
+    },
+    {
+      "id": 3,
+      "body": "Example Task",
+      "email": "x@example.com",
+      "name": "X"
+    }
+  ]
+}
