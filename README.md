@@ -14,7 +14,7 @@ It was created to practice and apply React concepts such as:
 - Add, edit, and delete tasks  
 - Form validation (required fields and email format)  
 - Loading and error UI messages  
-- Data persistence with a local server using `json-server`
+- Data persistence with a local server using `json-server` (db.json)
 
 ---
 
@@ -26,8 +26,6 @@ npm install
 
 # 2. Run the mock backend (json-server)
 npm run server
-
-This starts the json-server on http://localhost:3001, using the data in db.json.
 
 # Run the dev server (in a separate terminal)
 npm run dev
