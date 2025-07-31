@@ -24,6 +24,9 @@ It was created to practice and apply React concepts such as:
 # Install dependencies
 npm install
 
-# Run the dev server
+# Run the json-server
+npm run server
+
+# Run the dev server (In a separate terminal)
 npm run dev
 
