@@ -21,12 +21,14 @@ It was created to practice and apply React concepts such as:
 ## How to run
 
 ```bash
-# Install dependencies
+# 1. Install dependencies
 npm install
 
-# Run the json-server
+# 2. Run the mock backend (json-server)
 npm run server
 
-# Run the dev server (In a separate terminal)
+This starts the json-server on http://localhost:3001, using the data in db.json.
+
+# Run the dev server (in a separate terminal)
 npm run dev
 
