@@ -1,22 +1,25 @@
 {
   "tasks": [
     {
-      "id": 1,
+      "id": "1",
       "body": "Buy groceries",
       "email": "john@example.com",
-      "name": "John"
+      "name": "John",
+      "completed": true
     },
     {
-      "id": 2,
+      "id": "2",
       "body": "Finish thesis",
       "email": "bruno@example.com",
-      "name": "Bruno"
+      "name": "Bruno",
+      "completed": false
     },
     {
-      "id": 3,
+      "id": "3",
       "body": "Example Task",
       "email": "x@example.com",
-      "name": "X"
+      "name": "X",
+      "completed": false
     }
   ]
 }

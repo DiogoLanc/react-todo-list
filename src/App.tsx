@@ -43,7 +43,7 @@ const App = () => {
   }, []);
 
   const addTask = () => {
-    setFormData({ body: "", email: "", name: "" });
+    setFormData({ body: "", email: "", name: "", completed: false });
     setShowForm(true);
     setError("");
     setShowAddButton(false);
@@ -81,6 +81,7 @@ const App = () => {
       body: taskEdit.body,
       email: taskEdit.email,
       name: taskEdit.name,
+      completed: taskEdit.completed,
     });
 
     setShowForm(true);
@@ -130,10 +131,27 @@ const App = () => {
       }
 
       setShowForm(false);
-      setFormData({ body: "", email: "", name: "" });
+      setFormData({ body: "", email: "", name: "", completed: false });
       setShowAddButton(true);
     } catch (error) {
       console.error("Error saving task:", error);
+    }
+  };
+
+  const toggleCompleteBgColor = async (id: number) => {
+    const index = toDos.findIndex((task) => task.id === id);
+    if (index === -1) return;
+
+    const task = toDos[index];
+    const updatedTask = { ...task, completed: !task.completed };
+
+    try {
+      await updateTaskAPI(id, updatedTask);
+      const newToDos = [...toDos];
+      newToDos[index] = updatedTask;
+      setToDos(newToDos);
+    } catch (error) {
+      console.error("Failed to toggle completion:", error);
     }
   };
 
@@ -166,7 +184,12 @@ const App = () => {
       ) : (
         <>
           {showAddButton && <AddButton onClick={addTask} />}
-          <TaskList toDos={toDos} onEdit={editTask} onDelete={deleteTask} />
+          <TaskList
+            toDos={toDos}
+            onEdit={editTask}
+            onDelete={deleteTask}
+            onToggleComplete={toggleCompleteBgColor}
+          />
         </>
       )}
     </div>

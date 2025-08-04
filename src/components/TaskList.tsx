@@ -5,12 +5,14 @@ type TaskListProps = {
   toDos: Comment[];
   onEdit: (id: number) => void;
   onDelete: (id: number) => void;
+  onToggleComplete: (id: number) => void;
 };
 
 export const TaskList: React.FC<TaskListProps> = ({
   toDos,
   onEdit,
   onDelete,
+  onToggleComplete,
 }) => (
   <ul style={{ listStyle: "none", padding: 0, alignItems: "center" }}>
     {toDos.map((toDo) => (
@@ -22,6 +24,7 @@ export const TaskList: React.FC<TaskListProps> = ({
           {...toDo}
           onEdit={() => onEdit(toDo.id)}
           onDelete={() => onDelete(toDo.id)}
+          onToggleComplete={() => onToggleComplete(toDo.id)}
         />
       </li>
     ))}
