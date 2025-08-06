@@ -11,7 +11,8 @@ It was created to practice and apply React concepts such as:
 
 ## Some Features
 
-- Add, edit, and delete tasks  
+- Add, edit, and delete tasks
+- Filter tasks by id, name and task state
 - Form validation (required fields and email format)  
 - Loading and error UI messages  
 - Data persistence with a local server using `json-server` ('db.json')
