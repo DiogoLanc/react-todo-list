@@ -1,5 +1,28 @@
 import { Comment } from "../types/types";
 
+const formatDate = (iso?: string) => {
+  if (!iso) return "";
+  const [y, m, d] = iso.split("-");
+  return `${d}/${m}/${y}`;
+};
+
+const isOverdue = (iso?: string, completed?: boolean) => {
+  if (!iso || completed) return false;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const due = new Date(iso);
+  return due < today;
+};
+
+const isDueToday = (iso?: string) => {
+  if (!iso) return false;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const due = new Date(iso);
+  due.setHours(0, 0, 0, 0);
+  return due.getTime() === today.getTime();
+};
+
 type TaskItemProps = Comment & {
   onDelete: () => void;
   onEdit: () => void;
@@ -8,6 +31,14 @@ type TaskItemProps = Comment & {
 
 export const TaskItem: React.FC<TaskItemProps> = (props) => {
   const backgroundColor = props.completed ? "#d1f7d1c0" : "#fff8baff";
+  const dueDateBg = (() => {
+    if (props.completed) return "#5bff5bff";
+    if (!props.dueDate) return "#f0f0f0ff";
+    if (isOverdue(props.dueDate)) return "#ffbbbbff";
+    if (isDueToday(props.dueDate)) return "#ffdb3cff";
+    return "#a8d0ffff";
+  })();
+
   return (
     <div
       style={{
@@ -41,6 +72,19 @@ export const TaskItem: React.FC<TaskItemProps> = (props) => {
         <strong>Email: </strong>
         {props.email}
       </p>
+      <p style={{ marginTop: 8 }}>
+        <strong>Due date:</strong>{" "}
+        <span
+          style={{
+            background: dueDateBg,
+            padding: "6px",
+            borderRadius: "6px",
+          }}
+        >
+          {props.dueDate ? formatDate(props.dueDate) : "no due date"}
+        </span>
+      </p>
+
       <div
         style={{
           display: "flex",

@@ -5,6 +5,7 @@ export type Comment = {
   name: string;
   postID?: number;
   completed: boolean;
+  dueDate?: string;
 };
 
 export type Form = Omit<Comment, "id" | "postID">;

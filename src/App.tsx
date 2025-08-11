@@ -50,7 +50,13 @@ const App = () => {
   }, []);
 
   const addTask = () => {
-    setFormData({ body: "", email: "", name: "", completed: false });
+    setFormData({
+      body: "",
+      email: "",
+      name: "",
+      completed: false,
+      dueDate: "",
+    });
     setShowForm(true);
     setError("");
     setShowAddButton(false);
@@ -89,6 +95,7 @@ const App = () => {
       email: taskEdit.email,
       name: taskEdit.name,
       completed: taskEdit.completed,
+      dueDate: taskEdit.dueDate || "",
     });
 
     setShowForm(true);
@@ -130,15 +137,19 @@ const App = () => {
         setToDos(updatedToDos);
         setEditingTask(null);
       } else {
-        const lastId =
-          toDos.length > 0 ? Math.max(...toDos.map((t) => Number(t.id))) : 0;
-        const newTask = await createTaskAPI(formData, lastId);
+        const newTask = await createTaskAPI(formData);
 
         setToDos([...toDos, newTask]);
       }
 
       setShowForm(false);
-      setFormData({ body: "", email: "", name: "", completed: false });
+      setFormData({
+        body: "",
+        email: "",
+        name: "",
+        completed: false,
+        dueDate: "",
+      });
       setShowAddButton(true);
     } catch (error) {
       console.error("Error saving task:", error);

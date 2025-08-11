@@ -15,6 +15,10 @@ export const TaskForm = ({
   onSave,
   error,
 }: TaskFormProps) => {
+  const inputStyle: React.CSSProperties = {
+    borderRadius: "8px",
+  };
+
   return (
     <div
       style={{
@@ -35,25 +39,47 @@ export const TaskForm = ({
         value={formData.body}
         required
         onChange={(e) => setFormData({ ...formData, body: e.target.value })}
+        style={inputStyle}
       />
       <input
         type="text"
         placeholder="Email"
         value={formData.email}
         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+        style={inputStyle}
       />
       <input
         type="text"
         placeholder="Name"
         value={formData.name}
         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+        style={inputStyle}
       />
+      <label
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          fontWeight: "bold",
+          gap: "6px",
+        }}
+      >
+        Due Date
+        <input
+          type="date"
+          value={formData.dueDate || ""}
+          onChange={(e) =>
+            setFormData({ ...formData, dueDate: e.target.value })
+          }
+          style={inputStyle}
+        />
+      </label>
+
       <div
         style={{
           display: "flex",
           justifyContent: "right",
           marginTop: "30px",
-          gap: "40px",
+          gap: "20px",
         }}
       >
         <button onClick={onCancel} className="button-cancel">

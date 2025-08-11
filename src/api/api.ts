@@ -9,20 +9,19 @@ export const getTasksAPI = async (): Promise<Comment[]> => {
   return data;
 };
 
-export const createTaskAPI = async (
-  task: Form,
-  lastId: number
-): Promise<Comment> => {
-  const newTask = { ...task, id: lastId + 1 };
-
+export const createTaskAPI = async (task: Form): Promise<Comment> => {
   const res = await fetch(API_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(newTask),
+    body: JSON.stringify(task),
   });
 
-  const data = await res.json();
-  return data;
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Failed to create task: ${text}`);
+  }
+
+  return await res.json();
 };
 
 export const updateTaskAPI = async (
