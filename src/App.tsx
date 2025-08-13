@@ -56,6 +56,7 @@ const App = () => {
       name: "",
       completed: false,
       dueDate: "",
+      priority: "medium",
     });
     setShowForm(true);
     setError("");
@@ -96,6 +97,7 @@ const App = () => {
       name: taskEdit.name,
       completed: taskEdit.completed,
       dueDate: taskEdit.dueDate || "",
+      priority: taskEdit.priority,
     });
 
     setShowForm(true);
@@ -121,7 +123,7 @@ const App = () => {
     if (!formData) return;
 
     if (!formData.body || !formData.email || !formData.name) {
-      setError("All fields are required.");
+      setError("Some required fields are missing.");
       return;
     }
     if (!validateEmail(formData.email)) {
@@ -149,6 +151,7 @@ const App = () => {
         name: "",
         completed: false,
         dueDate: "",
+        priority: "medium",
       });
       setShowAddButton(true);
     } catch (error) {

@@ -1,4 +1,4 @@
-import { Form } from "../types/types";
+import { Form, Priority } from "../types/types";
 
 type TaskFormProps = {
   formData: Form;
@@ -17,6 +17,13 @@ export const TaskForm = ({
 }: TaskFormProps) => {
   const inputStyle: React.CSSProperties = {
     borderRadius: "8px",
+  };
+
+  const labelStyle: React.CSSProperties = {
+    display: "flex",
+    flexDirection: "column",
+    fontWeight: "bold",
+    gap: "6px",
   };
 
   return (
@@ -55,14 +62,7 @@ export const TaskForm = ({
         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
         style={inputStyle}
       />
-      <label
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          fontWeight: "bold",
-          gap: "6px",
-        }}
-      >
+      <label style={labelStyle}>
         Due Date
         <input
           type="date"
@@ -72,6 +72,21 @@ export const TaskForm = ({
           }
           style={inputStyle}
         />
+      </label>
+
+      <label style={labelStyle}>
+        Priority
+        <select
+          value={formData.priority}
+          onChange={(e) =>
+            setFormData({ ...formData, priority: e.target.value as Priority })
+          }
+          style={{}}
+        >
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select>
       </label>
 
       <div

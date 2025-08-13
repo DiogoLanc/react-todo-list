@@ -6,6 +6,9 @@ export type Comment = {
   postID?: number;
   completed: boolean;
   dueDate?: string;
+  priority: Priority;
 };
 
 export type Form = Omit<Comment, "id" | "postID">;
+
+export type Priority = "low" | "medium" | "high";

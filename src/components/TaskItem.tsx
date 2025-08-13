@@ -1,4 +1,4 @@
-import { Comment } from "../types/types";
+import { Comment, Priority } from "../types/types";
 
 const formatDate = (iso?: string) => {
   if (!iso) return "";
@@ -23,6 +23,25 @@ const isDueToday = (iso?: string) => {
   return due.getTime() === today.getTime();
 };
 
+const getDueDateBg = (completed: boolean, dueDate?: string) => {
+  if (completed) return "#d1f7d1";
+  if (!dueDate) return "#e0e0e0";
+  if (isOverdue(dueDate)) return "#ffb3b3";
+  if (isDueToday(dueDate)) return "#ffd699";
+  return "#b3ffcc";
+};
+
+const getPriorityStyles = (priority: Priority) => {
+  switch (priority) {
+    case "high":
+      return { bg: "#ff4d4d", fg: "#ffffff" };
+    case "medium":
+      return { bg: "#ffcc66", fg: "#553a00" };
+    default:
+      return { bg: "#66b3ff", fg: "#003a66" };
+  }
+};
+
 type TaskItemProps = Comment & {
   onDelete: () => void;
   onEdit: () => void;
@@ -31,13 +50,8 @@ type TaskItemProps = Comment & {
 
 export const TaskItem: React.FC<TaskItemProps> = (props) => {
   const backgroundColor = props.completed ? "#d1f7d1c0" : "#fff8baff";
-  const dueDateBg = (() => {
-    if (props.completed) return "#5bff5bff";
-    if (!props.dueDate) return "#f0f0f0ff";
-    if (isOverdue(props.dueDate)) return "#ffbbbbff";
-    if (isDueToday(props.dueDate)) return "#ffdb3cff";
-    return "#a8d0ffff";
-  })();
+  const dueDateBg = getDueDateBg(props.completed, props.dueDate);
+  const priorityStyles = getPriorityStyles(props.priority as Priority);
 
   return (
     <div
@@ -82,6 +96,20 @@ export const TaskItem: React.FC<TaskItemProps> = (props) => {
           }}
         >
           {props.dueDate ? formatDate(props.dueDate) : "no due date"}
+        </span>
+      </p>
+
+      <p style={{ marginTop: 8 }}>
+        <strong>Priority:</strong>{" "}
+        <span
+          style={{
+            padding: "6px",
+            borderRadius: "6px",
+            background: priorityStyles.bg,
+            color: priorityStyles.fg,
+          }}
+        >
+          {props.priority}
         </span>
       </p>
 
