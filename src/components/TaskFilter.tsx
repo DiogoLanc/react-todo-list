@@ -12,13 +12,21 @@ type TaskFilterProps = {
 };
 
 export const TaskFilter = ({ filter, setFilter }: TaskFilterProps) => {
+  const filterStyle: React.CSSProperties = {
+    padding: "8px ",
+    borderRadius: "8px",
+    fontSize: "16px",
+    border: "1px solid #ccc",
+    background: "#fff",
+  };
+
   return (
     <div
       style={{
         display: "flex",
         justifyContent: "center",
         gap: "20px",
-        padding: "5px",
+        padding: "10px",
       }}
     >
       <select
@@ -26,39 +34,27 @@ export const TaskFilter = ({ filter, setFilter }: TaskFilterProps) => {
         onChange={(e) =>
           setFilter((f) => ({ ...f, completed: e.target.value }))
         }
-        style={{
-          padding: "8px",
-          borderRadius: "6px",
-          fontSize: "16px",
-          border: "1px solid #ccc",
-          background: "#fff",
-          cursor: "pointer",
-        }}
+        style={filterStyle}
       >
         <option value="all">All Tasks</option>
         <option value="completed">Completed</option>
         <option value="incomplete">Incomplete</option>
       </select>
+
       <input
         type="text"
         placeholder="Filter by name"
         value={filter.name}
         onChange={(e) => setFilter((f) => ({ ...f, name: e.target.value }))}
-        style={{
-          padding: "8px",
-          borderRadius: "6px",
-          fontSize: "16px",
-          width: "180px",
-          border: "1px solid #ccc",
-        }}
+        style={{ ...filterStyle, width: "130px" }}
       />
+
       <input
         type="number"
         placeholder="Filter by ID"
         min={1}
         value={filter.id}
         onChange={(e) => {
-          // Only allow positive numbers or empty string
           const val = e.target.value;
           if (
             val === "" ||
@@ -67,13 +63,7 @@ export const TaskFilter = ({ filter, setFilter }: TaskFilterProps) => {
             setFilter((f) => ({ ...f, id: val }));
           }
         }}
-        style={{
-          padding: "8px",
-          borderRadius: "6px",
-          fontSize: "16px",
-          width: "110px",
-          border: "1px solid #ccc",
-        }}
+        style={{ ...filterStyle, width: "100px" }}
       />
     </div>
   );

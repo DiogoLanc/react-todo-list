@@ -15,15 +15,19 @@ export const TaskForm = ({
   onSave,
   error,
 }: TaskFormProps) => {
-  const inputStyle: React.CSSProperties = {
-    borderRadius: "8px",
+  const formStyle: React.CSSProperties = {
+    padding: "12px",
+    borderRadius: "10px",
+    border: "1px solid #cfcfcf",
+    background: "#fff",
+    fontSize: "20px",
   };
 
   const labelStyle: React.CSSProperties = {
     display: "flex",
     flexDirection: "column",
     fontWeight: "bold",
-    gap: "6px",
+    gap: "8px",
   };
 
   return (
@@ -40,28 +44,32 @@ export const TaskForm = ({
           {error}
         </p>
       )}
+
       <input
         type="text"
         placeholder="Task Body"
         value={formData.body}
         required
         onChange={(e) => setFormData({ ...formData, body: e.target.value })}
-        style={inputStyle}
+        style={formStyle}
       />
+
       <input
         type="text"
         placeholder="Email"
         value={formData.email}
         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-        style={inputStyle}
+        style={formStyle}
       />
+
       <input
         type="text"
         placeholder="Name"
         value={formData.name}
         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-        style={inputStyle}
+        style={formStyle}
       />
+
       <label style={labelStyle}>
         Due Date
         <input
@@ -70,7 +78,7 @@ export const TaskForm = ({
           onChange={(e) =>
             setFormData({ ...formData, dueDate: e.target.value })
           }
-          style={inputStyle}
+          style={formStyle}
         />
       </label>
 
@@ -81,11 +89,17 @@ export const TaskForm = ({
           onChange={(e) =>
             setFormData({ ...formData, priority: e.target.value as Priority })
           }
-          style={{}}
+          style={formStyle}
         >
-          <option value="low">Low</option>
-          <option value="medium">Medium</option>
-          <option value="high">High</option>
+          <option value="low" style={{ fontSize: "18px" }}>
+            Low
+          </option>
+          <option value="medium" style={{ fontSize: "18px" }}>
+            Medium
+          </option>
+          <option value="high" style={{ fontSize: "18px" }}>
+            High
+          </option>
         </select>
       </label>
 
