@@ -24,21 +24,21 @@ const isDueToday = (iso?: string) => {
 };
 
 const getDueDateBg = (completed: boolean, dueDate?: string) => {
-  if (completed) return "#d1f7d1";
-  if (!dueDate) return "#e0e0e0";
-  if (isOverdue(dueDate)) return "#ffb3b3";
-  if (isDueToday(dueDate)) return "#ffd699";
-  return "#b3ffcc";
+  if (completed) return "#00a100ff";
+  if (!dueDate) return "#b1b1b1ff";
+  if (isOverdue(dueDate)) return "#e20000ff";
+  if (isDueToday(dueDate)) return "#fc9700ff";
+  return "#4db8ffff";
 };
 
 const getPriorityStyles = (priority: Priority) => {
   switch (priority) {
     case "high":
-      return { bg: "#ff4d4d", fg: "#ffffff" };
+      return { bg: "#ff5353ff", fg: "#ffffff" };
     case "medium":
-      return { bg: "#ffcc66", fg: "#553a00" };
+      return { bg: "#e6ab37ff", fg: "#ffffffff" };
     default:
-      return { bg: "#66b3ff", fg: "#003a66" };
+      return { bg: "#55aaffff", fg: "#ffffffff" };
   }
 };
 
@@ -49,95 +49,117 @@ type TaskItemProps = Comment & {
 };
 
 export const TaskItem: React.FC<TaskItemProps> = (props) => {
-  const backgroundColor = props.completed ? "#d1f7d1c0" : "#fff8baff";
+  const backgroundColor = props.completed ? "#c0ffbeff" : "#fff8baff";
   const dueDateBg = getDueDateBg(props.completed, props.dueDate);
   const priorityStyles = getPriorityStyles(props.priority as Priority);
+
+  const pStyle = { marginBottom: "1.5rem" };
 
   return (
     <div
       style={{
         backgroundColor,
-        border: "1px solid black",
-        borderRadius: "2em",
-        padding: "2em",
+
+        maxWidth: "750px",
+        margin: "1rem auto",
+
+        border: "3px solid #ffffffff",
+        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.14)",
+        borderRadius: "1rem",
+        padding: "1.5rem",
         display: "flex",
         flexDirection: "column",
+        gap: "1.5rem",
       }}
     >
       <h2
         style={{
-          flexGrow: 1,
           textAlign: "center",
           margin: 0,
-          fontSize: "1.25rem",
+          fontSize: "1.5rem",
         }}
       >
         Task {props.id}
       </h2>
 
-      <p>
-        <strong>To-Do: </strong>
-        {props.body}
-      </p>
-      <p>
-        <strong>Name: </strong> {props.name}
-      </p>
-      <p>
-        <strong>Email: </strong>
-        {props.email}
-      </p>
-      <p style={{ marginTop: 8 }}>
-        <strong>Due date:</strong>{" "}
-        <span
-          style={{
-            background: dueDateBg,
-            padding: "6px",
-            borderRadius: "6px",
-          }}
-        >
-          {props.dueDate ? formatDate(props.dueDate) : "no due date"}
-        </span>
-      </p>
-
-      <p style={{ marginTop: 8 }}>
-        <strong>Priority:</strong>{" "}
-        <span
-          style={{
-            padding: "6px",
-            borderRadius: "6px",
-            background: priorityStyles.bg,
-            color: priorityStyles.fg,
-          }}
-        >
-          {props.priority}
-        </span>
-      </p>
-
       <div
         style={{
           display: "flex",
           justifyContent: "space-between",
-          alignItems: "center",
         }}
       >
-        <label style={{ display: "flex", alignItems: "center", gap: ".6rem" }}>
-          <span style={{ fontWeight: 500 }}>Completed</span>
-          <input
-            type="checkbox"
-            checked={props.completed}
-            onChange={props.onToggleComplete}
-            style={{ width: "15px", height: "15px", cursor: "pointer" }}
-          />
-        </label>
-
-        <div style={{ display: "flex", gap: ".75rem" }}>
-          <button onClick={props.onEdit} className="button-edit">
-            Edit
-          </button>
-          <button onClick={props.onDelete} className="button-delete">
-            Delete
-          </button>
+        {/* Left Column */}
+        <div>
+          <p style={pStyle}>
+            <strong>To-Do: </strong>
+            {props.body}
+          </p>
+          <p style={pStyle}>
+            <strong>Name: </strong> {props.name}
+          </p>
+          <p style={{ ...pStyle, marginBottom: 0 }}>
+            {" "}
+            <strong>Email: </strong>
+            {props.email}
+          </p>
         </div>
+
+        {/* Right Column */}
+        <div style={{ textAlign: "right", flexShrink: 0 }}>
+          {" "}
+          <p style={pStyle}>
+            <strong>Due date:</strong>{" "}
+            <span
+              style={{
+                background: dueDateBg,
+                padding: "6px",
+                borderRadius: "6px",
+                color: "#ffffffff",
+              }}
+            >
+              {props.dueDate ? formatDate(props.dueDate) : "no due date"}
+            </span>
+          </p>
+          <p style={pStyle}>
+            <strong>Priority:</strong>{" "}
+            <span
+              style={{
+                padding: "6px",
+                borderRadius: "6px",
+                background: priorityStyles.bg,
+                color: priorityStyles.fg,
+                fontWeight: "500",
+              }}
+            >
+              {props.priority}
+            </span>
+          </p>
+          <label
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: ".5em",
+              justifyContent: "flex-end",
+            }}
+          >
+            <span style={{ fontWeight: 500 }}>Completed</span>
+            <input
+              type="checkbox"
+              checked={props.completed}
+              onChange={props.onToggleComplete}
+              style={{ width: "15px", height: "15px", cursor: "pointer" }}
+            />
+          </label>
+        </div>
+      </div>
+
+      <div style={{ display: "flex", justifyContent: "center", gap: ".75rem" }}>
+        <button onClick={props.onEdit} className="button-edit">
+          Edit
+        </button>
+        <button onClick={props.onDelete} className="button-delete">
+          Delete
+        </button>
       </div>
     </div>
   );

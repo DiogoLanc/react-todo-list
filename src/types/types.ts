@@ -12,3 +12,5 @@ export type Comment = {
 export type Form = Omit<Comment, "id" | "postID">;
 
 export type Priority = "low" | "medium" | "high";
+
+export type PriorityFilter = Priority | "all";

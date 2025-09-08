@@ -10,7 +10,7 @@ import {
   getTasksAPI,
   updateTaskAPI,
 } from "./api/api";
-import TaskFilter from "./components/TaskFilter";
+import TaskFilter, { Filter } from "./components/TaskFilter";
 
 const App = () => {
   const [toDos, setToDos] = useState<Comment[]>([]);
@@ -26,10 +26,11 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [fetchError, setFetchError] = useState("");
 
-  const [filter, setFilter] = useState({
+  const [filter, setFilter] = useState<Filter>({
     completed: "all", // "all", "completed", "incomplete"
     name: "",
     id: "",
+    priority: "all",
   });
 
   useEffect(() => {
@@ -192,6 +193,11 @@ const App = () => {
     if (filter.id && String(task.id) !== String(filter.id)) {
       return false;
     }
+
+    if (filter.priority !== "all" && task.priority !== filter.priority) {
+      return false;
+    }
+
     return true;
   });
 

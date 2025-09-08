@@ -1,9 +1,11 @@
 import React from "react";
+import { PriorityFilter } from "../types/types";
 
-type Filter = {
+export type Filter = {
   completed: string;
   name: string;
   id: string;
+  priority: PriorityFilter;
 };
 
 type TaskFilterProps = {
@@ -65,6 +67,22 @@ export const TaskFilter = ({ filter, setFilter }: TaskFilterProps) => {
         }}
         style={{ ...filterStyle, width: "100px" }}
       />
+
+      <select
+        value={filter.priority}
+        onChange={(e) =>
+          setFilter((f) => ({
+            ...f,
+            priority: e.target.value as PriorityFilter,
+          }))
+        }
+        style={filterStyle}
+      >
+        <option value="all">All Priorities</option>
+        <option value="high">High</option>
+        <option value="medium">Medium</option>
+        <option value="low">Low</option>
+      </select>
     </div>
   );
 };
