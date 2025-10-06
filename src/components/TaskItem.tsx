@@ -4,6 +4,7 @@ import {
   getPriorityStyles,
 } from "../helpers/taskItemHelpers";
 import { Comment, Priority } from "../types/types";
+import "./TaskItem.css";
 
 type TaskItemProps = Comment & {
   onDelete: () => void;
