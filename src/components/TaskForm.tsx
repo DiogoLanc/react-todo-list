@@ -44,32 +44,37 @@ export const TaskForm = ({
           {error}
         </p>
       )}
-
-      <input
-        type="text"
-        placeholder="Task Body"
-        value={formData.body}
-        required
-        onChange={(e) => setFormData({ ...formData, body: e.target.value })}
-        style={formStyle}
-      />
-
-      <input
-        type="text"
-        placeholder="Email"
-        value={formData.email}
-        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-        style={formStyle}
-      />
-
-      <input
-        type="text"
-        placeholder="Name"
-        value={formData.name}
-        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-        style={formStyle}
-      />
-
+      <label style={labelStyle}>
+        Task Body
+        <input
+          type="text"
+          placeholder="e.g. Do the groceries"
+          value={formData.body}
+          required
+          onChange={(e) => setFormData({ ...formData, body: e.target.value })}
+          style={formStyle}
+        />
+      </label>
+      <label style={labelStyle}>
+        Email
+        <input
+          type="text"
+          placeholder="e.g. a@gmail.com"
+          value={formData.email}
+          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+          style={formStyle}
+        />
+      </label>
+      <label style={labelStyle}>
+        Name
+        <input
+          type="text"
+          placeholder="e.g. John Doe"
+          value={formData.name}
+          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+          style={formStyle}
+        />
+      </label>
       <label style={labelStyle}>
         Due Date
         <input
@@ -81,7 +86,6 @@ export const TaskForm = ({
           style={formStyle}
         />
       </label>
-
       <label style={labelStyle}>
         Priority
         <select
@@ -102,7 +106,6 @@ export const TaskForm = ({
           </option>
         </select>
       </label>
-
       <div
         style={{
           display: "flex",
