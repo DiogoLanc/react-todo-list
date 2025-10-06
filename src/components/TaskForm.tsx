@@ -1,4 +1,5 @@
 import { Form, Priority } from "../types/types";
+import "./TaskForm.css";
 
 type TaskFormProps = {
   formData: Form;
@@ -15,36 +16,10 @@ export const TaskForm = ({
   onSave,
   error,
 }: TaskFormProps) => {
-  const formStyle: React.CSSProperties = {
-    padding: "12px",
-    borderRadius: "10px",
-    border: "1px solid #cfcfcf",
-    background: "#fff",
-    fontSize: "20px",
-  };
-
-  const labelStyle: React.CSSProperties = {
-    display: "flex",
-    flexDirection: "column",
-    fontWeight: "bold",
-    gap: "8px",
-  };
-
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "20px",
-        marginTop: "40px",
-      }}
-    >
-      {error && (
-        <p style={{ color: "red", textAlign: "center", fontSize: "20px" }}>
-          {error}
-        </p>
-      )}
-      <label style={labelStyle}>
+    <div className="form-container">
+      {error && <p className="form-error">{error}</p>}
+      <label className="form-label">
         Task Body
         <input
           type="text"
@@ -52,30 +27,30 @@ export const TaskForm = ({
           value={formData.body}
           required
           onChange={(e) => setFormData({ ...formData, body: e.target.value })}
-          style={formStyle}
+          className="form-input"
         />
       </label>
-      <label style={labelStyle}>
+      <label className="form-label">
         Email
         <input
           type="text"
           placeholder="e.g. a@gmail.com"
           value={formData.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-          style={formStyle}
+          className="form-input"
         />
       </label>
-      <label style={labelStyle}>
+      <label className="form-label">
         Name
         <input
           type="text"
           placeholder="e.g. John Doe"
           value={formData.name}
           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-          style={formStyle}
+          className="form-input"
         />
       </label>
-      <label style={labelStyle}>
+      <label className="form-label">
         Due Date
         <input
           type="date"
@@ -83,17 +58,17 @@ export const TaskForm = ({
           onChange={(e) =>
             setFormData({ ...formData, dueDate: e.target.value })
           }
-          style={formStyle}
+          className="form-input"
         />
       </label>
-      <label style={labelStyle}>
+      <label className="form-label">
         Priority
         <select
           value={formData.priority}
           onChange={(e) =>
             setFormData({ ...formData, priority: e.target.value as Priority })
           }
-          style={formStyle}
+          className="form-input"
         >
           <option value="low" style={{ fontSize: "18px" }}>
             Low
@@ -106,14 +81,7 @@ export const TaskForm = ({
           </option>
         </select>
       </label>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "right",
-          marginTop: "30px",
-          gap: "20px",
-        }}
-      >
+      <div className="form-actions">
         <button onClick={onCancel} className="button-cancel">
           Cancel
         </button>

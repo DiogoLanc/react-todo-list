@@ -1,0 +1,52 @@
+.task-item-container {
+  max-width: 750px;
+  margin: 1rem auto;
+  border: 3px solid #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.14);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.task-item-title {
+  text-align: center;
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.task-item-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.task-item-left p,
+.task-item-right p {
+  margin-bottom: 1.5rem;
+}
+
+.task-item-left p:last-child {
+  margin-bottom: 0;
+}
+
+.task-item-due,
+.task-item-priority {
+  padding: 6px;
+  border-radius: 6px;
+  font-weight: 500;
+  color: #fff;
+}
+
+.task-item-completed-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  justify-content: flex-end;
+}
+
+.task-item-actions {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+}

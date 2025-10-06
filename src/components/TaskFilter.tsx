@@ -1,5 +1,6 @@
 import React from "react";
 import { PriorityFilter } from "../types/types";
+import "./TaskFilter.css";
 
 export type Filter = {
   completed: string;
@@ -14,14 +15,6 @@ type TaskFilterProps = {
 };
 
 export const TaskFilter = ({ filter, setFilter }: TaskFilterProps) => {
-  const filterStyle: React.CSSProperties = {
-    padding: "8px ",
-    borderRadius: "8px",
-    fontSize: "16px",
-    border: "1px solid #ccc",
-    background: "#fff",
-  };
-
   return (
     <div
       style={{
@@ -36,7 +29,7 @@ export const TaskFilter = ({ filter, setFilter }: TaskFilterProps) => {
         onChange={(e) =>
           setFilter((f) => ({ ...f, completed: e.target.value }))
         }
-        style={filterStyle}
+        className="filter-input"
       >
         <option value="all">All Tasks</option>
         <option value="completed">Completed</option>
@@ -48,13 +41,13 @@ export const TaskFilter = ({ filter, setFilter }: TaskFilterProps) => {
         placeholder="Filter by name"
         value={filter.name}
         onChange={(e) => setFilter((f) => ({ ...f, name: e.target.value }))}
-        style={{ ...filterStyle, width: "130px" }}
+        className="filter-input"
+        style={{ width: "130px" }}
       />
 
       <input
         type="number"
         placeholder="Filter by ID"
-        min={1}
         value={filter.id}
         onChange={(e) => {
           const val = e.target.value;
@@ -65,7 +58,8 @@ export const TaskFilter = ({ filter, setFilter }: TaskFilterProps) => {
             setFilter((f) => ({ ...f, id: val }));
           }
         }}
-        style={{ ...filterStyle, width: "100px" }}
+        className="filter-input"
+        style={{ width: "100px" }}
       />
 
       <select
@@ -76,7 +70,7 @@ export const TaskFilter = ({ filter, setFilter }: TaskFilterProps) => {
             priority: e.target.value as PriorityFilter,
           }))
         }
-        style={filterStyle}
+        className="filter-input"
       >
         <option value="all">All Priorities</option>
         <option value="high">High</option>

@@ -53,95 +53,46 @@ export const TaskItem: React.FC<TaskItemProps> = (props) => {
   const dueDateBg = getDueDateBg(props.completed, props.dueDate);
   const priorityStyles = getPriorityStyles(props.priority as Priority);
 
-  const pStyle = { marginBottom: "1.5rem" };
-
   return (
-    <div
-      style={{
-        backgroundColor,
-
-        maxWidth: "750px",
-        margin: "1rem auto",
-
-        border: "3px solid #ffffffff",
-        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.14)",
-        borderRadius: "1rem",
-        padding: "1.5rem",
-        display: "flex",
-        flexDirection: "column",
-        gap: "1.5rem",
-      }}
-    >
-      <h2
-        style={{
-          textAlign: "center",
-          margin: 0,
-          fontSize: "1.5rem",
-        }}
-      >
-        Task {props.id}
-      </h2>
-
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-        }}
-      >
-        {/* Left Column */}
-        <div>
-          <p style={pStyle}>
+    <div className="task-item-container" style={{ backgroundColor }}>
+      <h2 className="task-item-title">Task {props.id}</h2>
+      <div className="task-item-row">
+        <div className="task-item-left">
+          <p>
             <strong>To-Do: </strong>
             {props.body}
           </p>
-          <p style={pStyle}>
+          <p>
             <strong>Name: </strong> {props.name}
           </p>
-          <p style={{ ...pStyle, marginBottom: 0 }}>
-            {" "}
+          <p>
             <strong>Email: </strong>
             {props.email}
           </p>
         </div>
-
-        {/* Right Column */}
-        <div style={{ textAlign: "right", flexShrink: 0 }}>
-          {" "}
-          <p style={pStyle}>
+        <div
+          className="task-item-right"
+          style={{ textAlign: "right", flexShrink: 0 }}
+        >
+          <p>
             <strong>Due date:</strong>{" "}
-            <span
-              style={{
-                background: dueDateBg,
-                padding: "6px",
-                borderRadius: "6px",
-                color: "#ffffffff",
-              }}
-            >
+            <span className="task-item-due" style={{ background: dueDateBg }}>
               {props.dueDate ? formatDate(props.dueDate) : "no due date"}
             </span>
           </p>
-          <p style={pStyle}>
+          <p>
             <strong>Priority:</strong>{" "}
             <span
+              className="task-item-priority"
               style={{
-                padding: "6px",
-                borderRadius: "6px",
                 background: priorityStyles.bg,
                 color: priorityStyles.fg,
-                fontWeight: "500",
               }}
             >
               {props.priority}
             </span>
           </p>
-          <label
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: ".5em",
-              justifyContent: "flex-end",
-            }}
-          >
+          <label className="task-item-completed-label">
             <span style={{ fontWeight: 500 }}>Completed</span>
             <input
               type="checkbox"
@@ -152,8 +103,7 @@ export const TaskItem: React.FC<TaskItemProps> = (props) => {
           </label>
         </div>
       </div>
-
-      <div style={{ display: "flex", justifyContent: "center", gap: ".75rem" }}>
+      <div className="task-item-actions">
         <button onClick={props.onEdit} className="button-edit">
           Edit
         </button>
