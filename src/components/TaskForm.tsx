@@ -23,7 +23,7 @@ export const TaskForm = ({
         Task Body
         <input
           type="text"
-          placeholder="e.g. Do the groceries"
+          placeholder="e.g. Do something useful"
           value={formData.body}
           required
           onChange={(e) => setFormData({ ...formData, body: e.target.value })}
@@ -34,7 +34,7 @@ export const TaskForm = ({
         Email
         <input
           type="text"
-          placeholder="e.g. a@gmail.com"
+          placeholder="e.g. amilcar@gmail.com"
           value={formData.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           className="form-input"
@@ -44,7 +44,7 @@ export const TaskForm = ({
         Name
         <input
           type="text"
-          placeholder="e.g. John Doe"
+          placeholder="e.g. Amilcar"
           value={formData.name}
           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
           className="form-input"

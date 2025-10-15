@@ -11,6 +11,7 @@ import {
   updateTaskAPI,
 } from "./api/api";
 import TaskFilter, { Filter } from "./components/TaskFilter";
+import { DeleteTaskModal } from "./modals/DeleteTaskModal";
 
 const App = () => {
   const [toDos, setToDos] = useState<Comment[]>([]);
@@ -32,6 +33,27 @@ const App = () => {
     id: "",
     priority: "all",
   });
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [taskToDelete, setTaskToDelete] = useState<number | null>(null);
+
+  const requestDeleteTask = (id: number) => {
+    setTaskToDelete(id);
+    setShowDeleteModal(true);
+  };
+
+  const confirmDeleteTask = async () => {
+    if (taskToDelete !== null) {
+      await deleteTask(taskToDelete);
+      setShowDeleteModal(false);
+      setTaskToDelete(null);
+    }
+  };
+
+  const cancelDeleteTask = () => {
+    setShowDeleteModal(false);
+    setTaskToDelete(null);
+  };
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -79,14 +101,6 @@ const App = () => {
   };
 
   const editTask = (id: number) => {
-    // let taskEditIndex = -1;
-    // const taskEdit = toDos.find((task, index) => {
-    //   if (task.id === id) {
-    //     taskEditIndex = index;
-    //     return true;
-    //   }
-    // });
-
     const taskEdit = toDos.find((task) => task.id === id);
     const index = toDos.findIndex((task) => task.id === id);
 
@@ -235,11 +249,16 @@ const App = () => {
           <TaskList
             toDos={filteredToDos}
             onEdit={editTask}
-            onDelete={deleteTask}
+            onDelete={requestDeleteTask}
             onToggleComplete={toggleCompleteBgColor}
           />
         </>
       )}
+      <DeleteTaskModal
+        open={showDeleteModal}
+        onConfirm={confirmDeleteTask}
+        onCancel={cancelDeleteTask}
+      />
     </div>
   );
 };
