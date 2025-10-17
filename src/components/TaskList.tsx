@@ -16,10 +16,7 @@ export const TaskList: React.FC<TaskListProps> = ({
 }) => (
   <ul style={{ listStyle: "none", padding: 0, alignItems: "center" }}>
     {toDos.map((toDo) => (
-      <li
-        key={toDo.id}
-        style={{ marginBottom: "30px", padding: "20px", fontSize: "18px" }}
-      >
+      <li key={toDo.id} style={{ padding: "10px", fontSize: "18px" }}>
         <TaskItem
           {...toDo}
           onEdit={() => onEdit(toDo.id)}

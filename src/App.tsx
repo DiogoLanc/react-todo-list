@@ -12,6 +12,7 @@ import {
 } from "./api/api";
 import TaskFilter, { Filter } from "./components/TaskFilter";
 import { DeleteTaskModal } from "./modals/DeleteTaskModal";
+import { DeleteTaskToaster } from "./toasters/DeleteTaskToaster";
 
 const App = () => {
   const [toDos, setToDos] = useState<Comment[]>([]);
@@ -37,23 +38,8 @@ const App = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [taskToDelete, setTaskToDelete] = useState<number | null>(null);
 
-  const requestDeleteTask = (id: number) => {
-    setTaskToDelete(id);
-    setShowDeleteModal(true);
-  };
-
-  const confirmDeleteTask = async () => {
-    if (taskToDelete !== null) {
-      await deleteTask(taskToDelete);
-      setShowDeleteModal(false);
-      setTaskToDelete(null);
-    }
-  };
-
-  const cancelDeleteTask = () => {
-    setShowDeleteModal(false);
-    setTaskToDelete(null);
-  };
+  const [toastMessage, setToastMessage] = useState("");
+  const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -121,6 +107,25 @@ const App = () => {
     setEditingTask({ ...taskEdit, index });
   };
 
+  const requestDeleteTask = (id: number) => {
+    setTaskToDelete(id);
+    setShowDeleteModal(true);
+  };
+
+  const confirmDeleteTask = async () => {
+    if (taskToDelete !== null) {
+      await deleteTask(taskToDelete);
+      setShowDeleteModal(false);
+      showDeletedToaster(taskToDelete);
+      setTaskToDelete(null);
+    }
+  };
+
+  const cancelDeleteTask = () => {
+    setShowDeleteModal(false);
+    setTaskToDelete(null);
+  };
+
   const deleteTask = async (id: number) => {
     try {
       await deleteTaskAPI(id);
@@ -128,6 +133,11 @@ const App = () => {
     } catch (error) {
       console.error("Error deleting task:", error);
     }
+  };
+
+  const showDeletedToaster = (id: number) => {
+    setToastMessage(`Task ${id} was deleted successfully!`);
+    setShowToast(true);
   };
 
   const saveTask = async (
@@ -258,6 +268,11 @@ const App = () => {
         open={showDeleteModal}
         onConfirm={confirmDeleteTask}
         onCancel={cancelDeleteTask}
+      />
+      <DeleteTaskToaster
+        show={showToast}
+        message={toastMessage}
+        onClose={() => setShowToast(false)}
       />
     </div>
   );
