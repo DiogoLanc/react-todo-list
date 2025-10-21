@@ -1,31 +1,13 @@
 {
   "tasks": [
     {
-      "body": "ddd",
-      "email": "a@g.com",
-      "name": "zdzd ",
+      "body": "Teste",
+      "email": "axa@g.com",
+      "name": "Teste",
       "completed": false,
-      "dueDate": "2025-08-12",
-      "priority": "high",
-      "id": 1
-    },
-    {
-      "body": "ddd",
-      "email": "a@g.com",
-      "name": "zdzd ",
-      "completed": false,
-      "dueDate": "2025-08-25",
-      "priority": "low",
-      "id": 2
-    },
-    {
-      "body": "ddd",
-      "email": "a@g.com",
-      "name": "zdzd ",
-      "completed": false,
-      "dueDate": "2025-08-25",
+      "dueDate": "2025-10-21",
       "priority": "medium",
-      "id": 3
+      "id": 1
     }
   ]
 }
