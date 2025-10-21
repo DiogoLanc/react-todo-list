@@ -228,7 +228,7 @@ const App = () => {
 
   return (
     <div>
-      <h1 style={{ textAlign: "center" }}>To-Do List</h1>
+      <h1 style={{ textAlign: "center" }}>My To-Do List</h1>
       {isLoading ? (
         <p style={{ textAlign: "center", fontSize: "20px", marginTop: "80px" }}>
           Loading tasks...
