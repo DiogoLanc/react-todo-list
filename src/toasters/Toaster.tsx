@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type ToasterProps = {
   show: boolean;
@@ -10,9 +10,10 @@ const TOAST_DURATION = 5000; // 5s
 
 export const Toaster = ({ show, message, onClose }: ToasterProps) => {
   const [progress, setProgress] = useState(100);
+  const prevShowRef = useRef(false);
 
   useEffect(() => {
-    if (show) {
+    if (show && !prevShowRef.current) {
       setProgress(100);
       const start = Date.now();
       const interval = setInterval(() => {
@@ -23,12 +24,19 @@ export const Toaster = ({ show, message, onClose }: ToasterProps) => {
 
       const timer = setTimeout(onClose, TOAST_DURATION);
 
+      prevShowRef.current = true;
+
       return () => {
         clearInterval(interval);
         clearTimeout(timer);
       };
     }
-  }, [show, onClose]);
+
+    if (!show) {
+      prevShowRef.current = false;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [show]); // only depends on 'show'
 
   if (!show) return null;
 
