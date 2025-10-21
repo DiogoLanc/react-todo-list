@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-type DeleteToasterProps = {
+type ToasterProps = {
   show: boolean;
   message: string;
   onClose: () => void;
@@ -8,11 +8,7 @@ type DeleteToasterProps = {
 
 const TOAST_DURATION = 5000; // 5s
 
-export const DeleteTaskToaster = ({
-  show,
-  message,
-  onClose,
-}: DeleteToasterProps) => {
+export const Toaster = ({ show, message, onClose }: ToasterProps) => {
   const [progress, setProgress] = useState(100);
 
   useEffect(() => {

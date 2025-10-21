@@ -12,7 +12,7 @@ import {
 } from "./api/api";
 import TaskFilter, { Filter } from "./components/TaskFilter";
 import { DeleteTaskModal } from "./modals/DeleteTaskModal";
-import { DeleteTaskToaster } from "./toasters/DeleteTaskToaster";
+import { Toaster } from "./toasters/Toaster";
 
 const App = () => {
   const [toDos, setToDos] = useState<Comment[]>([]);
@@ -116,7 +116,7 @@ const App = () => {
     if (taskToDelete !== null) {
       await deleteTask(taskToDelete);
       setShowDeleteModal(false);
-      showDeletedToaster(taskToDelete);
+      showToaster(`Task ${taskToDelete} was deleted successfully!`);
       setTaskToDelete(null);
     }
   };
@@ -133,11 +133,6 @@ const App = () => {
     } catch (error) {
       console.error("Error deleting task:", error);
     }
-  };
-
-  const showDeletedToaster = (id: number) => {
-    setToastMessage(`Task ${id} was deleted successfully!`);
-    setShowToast(true);
   };
 
   const saveTask = async (
@@ -163,10 +158,11 @@ const App = () => {
         updatedToDos[editingTask.index] = updatedTask;
         setToDos(updatedToDos);
         setEditingTask(null);
+        showToaster(`Task ${updatedTask.id} was updated successfully!`);
       } else {
         const newTask = await createTaskAPI(formData);
-
         setToDos([...toDos, newTask]);
+        showToaster(`Task ${newTask.id} was created successfully!`);
       }
 
       setShowForm(false);
@@ -182,6 +178,11 @@ const App = () => {
     } catch (error) {
       console.error("Error saving task:", error);
     }
+  };
+
+  const showToaster = (message: string) => {
+    setToastMessage(message);
+    setShowToast(true);
   };
 
   const toggleCompleteBgColor = async (id: number) => {
@@ -269,7 +270,7 @@ const App = () => {
         onConfirm={confirmDeleteTask}
         onCancel={cancelDeleteTask}
       />
-      <DeleteTaskToaster
+      <Toaster
         show={showToast}
         message={toastMessage}
         onClose={() => setShowToast(false)}

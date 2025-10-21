@@ -1,8 +1,10 @@
 import {
   formatDate,
   getDueDateBg,
+  getDueDateInfo,
   getPriorityStyles,
 } from "../helpers/taskItemHelpers";
+import { Popover } from "../popovers/PopoverDueDate";
 import { Comment, Priority } from "../types/types";
 import "./TaskItem.css";
 
@@ -40,9 +42,17 @@ export const TaskItem: React.FC<TaskItemProps> = (props) => {
         >
           <p>
             <strong>Due date:</strong>{" "}
-            <span className="task-item-due" style={{ background: dueDateBg }}>
-              {props.dueDate ? formatDate(props.dueDate) : "no due date"}
-            </span>
+            <Popover
+              trigger={
+                <span
+                  className="task-item-due"
+                  style={{ background: dueDateBg, cursor: "pointer" }}
+                >
+                  {props.dueDate ? formatDate(props.dueDate) : "no due date"}
+                </span>
+              }
+              message={getDueDateInfo(props.dueDate, props.completed)}
+            />
           </p>
           <p>
             <strong>Priority:</strong>{" "}

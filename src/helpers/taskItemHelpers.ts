@@ -31,6 +31,29 @@ export const getDueDateBg = (completed: boolean, dueDate?: string) => {
   return "#4db8ffff";
 };
 
+export const getDueDateInfo = (dueDate?: string, completed?: boolean) => {
+  if (completed) return "Task completed!";
+  if (!dueDate) return "No due date";
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const due = new Date(dueDate);
+  due.setHours(0, 0, 0, 0);
+
+  const diffTime = due.getTime() - today.getTime();
+
+  // convert ms to days
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+  if (diffDays < 0)
+    return `Overdue by ${Math.abs(diffDays)} day${
+      Math.abs(diffDays) !== 1 ? "s" : ""
+    }`;
+  if (diffDays === 0) return "Due today";
+  if (diffDays === 1) return "Due tomorrow";
+  return `${diffDays} days remaining`;
+};
+
 export const getPriorityStyles = (priority: Priority) => {
   switch (priority) {
     case "high":
