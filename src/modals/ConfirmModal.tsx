@@ -1,13 +1,21 @@
 import React from "react";
 
-type DeleteTaskModalProps = {
+type ConfirmModalProps = {
   open: boolean;
+  title?: string;
+  message: string;
+  confirmText?: string;
+  cancelText?: string;
   onConfirm: () => void;
   onCancel: () => void;
 };
 
-export const DeleteTaskModal: React.FC<DeleteTaskModalProps> = ({
+export const ConfirmModal: React.FC<ConfirmModalProps> = ({
   open,
+  title,
+  message,
+  confirmText = "Yes",
+  cancelText = "No",
   onConfirm,
   onCancel,
 }) => {
@@ -25,6 +33,7 @@ export const DeleteTaskModal: React.FC<DeleteTaskModalProps> = ({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        zIndex: 1000,
       }}
     >
       <div
@@ -34,32 +43,15 @@ export const DeleteTaskModal: React.FC<DeleteTaskModalProps> = ({
           borderRadius: "12px",
         }}
       >
-        <h3 style={{ margin: "0 0 16px 0" }}>
-          Are you sure you want to delete this task?
-        </h3>
+        {title && <h2 style={{ margin: "0 0 16px 0" }}>{title}</h2>}
+        <h3 style={{ margin: "0 0 20px 0", fontWeight: "500" }}>{message}</h3>
         <div
           style={{
-            marginTop: "20px",
             display: "flex",
             gap: "20px",
             justifyContent: "center",
           }}
         >
-          <button
-            onClick={onCancel}
-            style={{
-              padding: "12px 20px",
-              borderRadius: "8px",
-              border: "none",
-              background: "#888",
-              color: "#fff",
-              cursor: "pointer",
-              fontWeight: "bold",
-              fontSize: "0.9rem",
-            }}
-          >
-            No
-          </button>
           <button
             onClick={onConfirm}
             style={{
@@ -73,7 +65,22 @@ export const DeleteTaskModal: React.FC<DeleteTaskModalProps> = ({
               fontSize: "0.9rem",
             }}
           >
-            Yes
+            {confirmText}
+          </button>
+          <button
+            onClick={onCancel}
+            style={{
+              padding: "12px 20px",
+              borderRadius: "8px",
+              border: "none",
+              background: "#888",
+              color: "#fff",
+              cursor: "pointer",
+              fontWeight: "bold",
+              fontSize: "0.9rem",
+            }}
+          >
+            {cancelText}
           </button>
         </div>
       </div>
