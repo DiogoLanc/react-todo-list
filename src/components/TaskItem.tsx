@@ -40,7 +40,7 @@ export const TaskItem: React.FC<TaskItemProps> = (props) => {
           className="task-item-right"
           style={{ textAlign: "right", flexShrink: 0 }}
         >
-          <p>
+          <div>
             <strong>Due date:</strong>{" "}
             <Popover
               trigger={
@@ -53,7 +53,7 @@ export const TaskItem: React.FC<TaskItemProps> = (props) => {
               }
               message={getDueDateInfo(props.dueDate, props.completed)}
             />
-          </p>
+          </div>
           <p>
             <strong>Priority:</strong>{" "}
             <span
