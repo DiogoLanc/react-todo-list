@@ -11,7 +11,7 @@ import {
   updateTaskAPI,
 } from "./api/api";
 import TaskFilter, { Filter } from "./components/TaskFilter";
-import { DeleteTaskModal } from "./modals/DeleteTaskModal";
+import { ConfirmModal } from "./modals/ConfirmModal";
 import { Toaster } from "./toasters/Toaster";
 
 const App = () => {
@@ -202,24 +202,26 @@ const App = () => {
     }
   };
 
-  const filteredToDos = toDos.filter((task) => {
-    if (filter.completed !== "all") {
-      if (filter.completed === "completed" && !task.completed) return false;
-      if (filter.completed === "incomplete" && task.completed) return false;
+  const filteredToDos = toDos.filter((todo) => {
+    // id filter
+    if (filter.id && !String(todo.id).includes(filter.id)) {
+      return false;
     }
 
+    // name filter
     if (
       filter.name &&
-      !task.name.toLowerCase().includes(filter.name.toLowerCase())
+      !todo.name.toLowerCase().includes(filter.name.toLowerCase())
     ) {
       return false;
     }
 
-    if (filter.id && String(task.id) !== String(filter.id)) {
-      return false;
-    }
+    // completion filter
+    if (filter.completed === "completed" && !todo.completed) return false;
+    if (filter.completed === "incomplete" && todo.completed) return false;
 
-    if (filter.priority !== "all" && task.priority !== filter.priority) {
+    // priority filter
+    if (filter.priority !== "all" && todo.priority !== filter.priority) {
       return false;
     }
 
@@ -265,8 +267,9 @@ const App = () => {
           />
         </>
       )}
-      <DeleteTaskModal
+      <ConfirmModal
         open={showDeleteModal}
+        message="Are you sure you want to delete this task?"
         onConfirm={confirmDeleteTask}
         onCancel={cancelDeleteTask}
       />
