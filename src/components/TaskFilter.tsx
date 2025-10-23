@@ -1,9 +1,9 @@
 import React from "react";
-import { PriorityFilter } from "../types/types";
+import { CompletionFilter, PriorityFilter } from "../types/types";
 import "./TaskFilter.css";
 
 export type Filter = {
-  completed: string;
+  completed: CompletionFilter;
   name: string;
   id: string;
   priority: PriorityFilter;
@@ -27,7 +27,10 @@ export const TaskFilter = ({ filter, setFilter }: TaskFilterProps) => {
       <select
         value={filter.completed}
         onChange={(e) =>
-          setFilter((f) => ({ ...f, completed: e.target.value }))
+          setFilter((f) => ({
+            ...f,
+            completed: e.target.value as CompletionFilter,
+          }))
         }
         className="filter-input"
       >
@@ -46,18 +49,10 @@ export const TaskFilter = ({ filter, setFilter }: TaskFilterProps) => {
       />
 
       <input
-        type="number"
+        type="text"
         placeholder="Filter by ID"
         value={filter.id}
-        onChange={(e) => {
-          const val = e.target.value;
-          if (
-            val === "" ||
-            (Number(val) > 0 && Number.isInteger(Number(val)))
-          ) {
-            setFilter((f) => ({ ...f, id: val }));
-          }
-        }}
+        onChange={(e) => setFilter((f) => ({ ...f, id: e.target.value }))}
         className="filter-input"
         style={{ width: "100px" }}
       />
