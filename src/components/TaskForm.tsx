@@ -5,7 +5,7 @@ type TaskFormProps = {
   formData: Form;
   setFormData: React.Dispatch<React.SetStateAction<Form | null>>;
   onCancel: () => void;
-  onSave: (ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  onSave: (ev: React.FormEvent<HTMLFormElement>) => void;
   error: string;
 };
 
@@ -17,10 +17,10 @@ export const TaskForm = ({
   error,
 }: TaskFormProps) => {
   return (
-    <div className="form-container">
+    <form className="form-container" onSubmit={onSave}>
       {error && <p className="form-error">{error}</p>}
       <label className="form-label">
-        Task Body
+        To-Do
         <input
           type="text"
           placeholder="e.g. Do something useful"
@@ -28,7 +28,11 @@ export const TaskForm = ({
           required
           onChange={(e) => setFormData({ ...formData, body: e.target.value })}
           className="form-input"
+          maxLength={75}
         />
+        <small style={{ color: "#666", fontSize: "14px" }}>
+          {formData.body.length}/75 characters
+        </small>
       </label>
       <label className="form-label">
         Email
@@ -48,6 +52,7 @@ export const TaskForm = ({
           value={formData.name}
           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
           className="form-input"
+          maxLength={25}
         />
       </label>
       <label className="form-label">
@@ -82,13 +87,13 @@ export const TaskForm = ({
         </select>
       </label>
       <div className="form-actions">
-        <button onClick={onCancel} className="button-cancel">
+        <button type="button" onClick={onCancel} className="button-cancel">
           Cancel
         </button>
-        <button onClick={onSave} className="button-save">
+        <button type="submit" className="button-save">
           Save Task
         </button>
       </div>
-    </div>
+    </form>
   );
 };
