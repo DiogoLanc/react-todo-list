@@ -14,9 +14,17 @@ export const TaskList: React.FC<TaskListProps> = ({
   onDelete,
   onToggleComplete,
 }) => (
-  <ul style={{ listStyle: "none", padding: 0, alignItems: "center" }}>
+  <ul
+    style={{
+      listStyle: "none",
+      padding: 0,
+      display: "grid",
+      gridTemplateColumns: "repeat(2, 1fr)",
+      gap: "50px",
+    }}
+  >
     {toDos.map((toDo) => (
-      <li key={toDo.id} style={{ padding: "10px", fontSize: "18px" }}>
+      <li key={toDo.id} style={{ fontSize: "18px" }}>
         <TaskItem
           {...toDo}
           onEdit={() => onEdit(toDo.id)}
