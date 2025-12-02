@@ -5,7 +5,7 @@ import {
   getPriorityStyles,
 } from "../helpers/taskItemHelpers";
 import { Popover } from "../popovers/PopoverDueDate";
-import { Comment, Priority } from "../types/types";
+import { Comment } from "../types/types";
 import "./TaskItem.css";
 
 type TaskItemProps = Comment & {
@@ -17,7 +17,7 @@ type TaskItemProps = Comment & {
 export const TaskItem: React.FC<TaskItemProps> = (props) => {
   const backgroundColor = props.completed ? "#c0ffbeff" : "#fff8baff";
   const dueDateBg = getDueDateBg(props.completed, props.dueDate);
-  const priorityStyles = getPriorityStyles(props.priority as Priority);
+  const priorityStyles = getPriorityStyles(props.priority);
 
   return (
     <div className="task-item-container" style={{ backgroundColor }}>
@@ -40,7 +40,7 @@ export const TaskItem: React.FC<TaskItemProps> = (props) => {
           className="task-item-right"
           style={{ textAlign: "right", flexShrink: 0 }}
         >
-          <div>
+          <p>
             <strong>Due date:</strong>{" "}
             <Popover
               trigger={
@@ -53,7 +53,7 @@ export const TaskItem: React.FC<TaskItemProps> = (props) => {
               }
               message={getDueDateInfo(props.dueDate, props.completed)}
             />
-          </div>
+          </p>
           <p>
             <strong>Priority:</strong>{" "}
             <span
