@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { AddButton } from "./components/AddButton";
 import { TaskForm } from "./components/TaskForm";
 import { TaskList } from "./components/TaskList";
@@ -73,8 +73,7 @@ const App = () => {
   };
 
   const validateEmail = (email: string) => {
-    const emailRegex =
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const emailRegex = /^[a-zA-Z0–9._%+-]+@[a-zA-Z0–9.-]+\.[a-zA-Z]{2,}$/;
     return emailRegex.test(email);
   };
 
@@ -135,9 +134,7 @@ const App = () => {
     }
   };
 
-  const saveTask = async (
-    ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const saveTask = async (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
 
     if (!formData) return;
@@ -202,71 +199,88 @@ const App = () => {
     }
   };
 
-  const filteredToDos = toDos.filter((todo) => {
-    // id filter
-    if (filter.id && !String(todo.id).includes(filter.id)) {
-      return false;
-    }
+  // in this case useMemo is kinda overkill (small number of tasks), so is more for learning purposes
+  const filteredToDos = useMemo(() => {
+    return toDos.filter((todo) => {
+      // id filter
+      if (filter.id && !String(todo.id).includes(filter.id)) {
+        return false;
+      }
 
-    // name filter
-    if (
-      filter.name &&
-      !todo.name.toLowerCase().includes(filter.name.toLowerCase())
-    ) {
-      return false;
-    }
+      // name filter
+      if (
+        filter.name &&
+        !todo.name.toLowerCase().includes(filter.name.toLowerCase())
+      ) {
+        return false;
+      }
 
-    // completion filter
-    if (filter.completed === "completed" && !todo.completed) return false;
-    if (filter.completed === "incomplete" && todo.completed) return false;
+      // completion filter
+      if (filter.completed === "completed" && !todo.completed) return false;
+      if (filter.completed === "incomplete" && todo.completed) return false;
 
-    // priority filter
-    if (filter.priority !== "all" && todo.priority !== filter.priority) {
-      return false;
-    }
+      // priority filter
+      if (filter.priority !== "all" && todo.priority !== filter.priority) {
+        return false;
+      }
 
-    return true;
-  });
+      return true;
+    });
+  }, [toDos, filter]);
+
+  const renderError = () => (
+    <p
+      style={{
+        color: "red",
+        textAlign: "center",
+        fontSize: "20px",
+        marginTop: "80px",
+      }}
+    >
+      {fetchError}
+    </p>
+  );
+
+  const renderLoading = () => (
+    <p style={{ textAlign: "center", fontSize: "20px", marginTop: "80px" }}>
+      Loading tasks...
+    </p>
+  );
+
+  const renderForm = () => (
+    <TaskForm
+      formData={formData!}
+      setFormData={setFormData}
+      onCancel={cancelTask}
+      onSave={saveTask}
+      error={error}
+    />
+  );
+
+  const renderTaskList = () => (
+    <>
+      {showAddButton && <AddButton onClick={addTask} />}
+      <TaskFilter filter={filter} setFilter={setFilter} />
+      <TaskList
+        toDos={filteredToDos}
+        onEdit={editTask}
+        onDelete={requestDeleteTask}
+        onToggleComplete={toggleCompleteBgColor}
+      />
+    </>
+  );
+
+  const renderContent = () => {
+    if (isLoading) return renderLoading();
+    if (fetchError) return renderError();
+    if (showForm && formData) return renderForm();
+    return renderTaskList();
+  };
 
   return (
     <div>
       <h1 style={{ textAlign: "center" }}>My To-Do List</h1>
-      {isLoading ? (
-        <p style={{ textAlign: "center", fontSize: "20px", marginTop: "80px" }}>
-          Loading tasks...
-        </p>
-      ) : fetchError ? (
-        <p
-          style={{
-            color: "red",
-            textAlign: "center",
-            fontSize: "20px",
-            marginTop: "80px",
-          }}
-        >
-          {fetchError}
-        </p>
-      ) : showForm && formData ? (
-        <TaskForm
-          formData={formData}
-          setFormData={setFormData}
-          onCancel={cancelTask}
-          onSave={saveTask}
-          error={error}
-        />
-      ) : (
-        <>
-          {showAddButton && <AddButton onClick={addTask} />}
-          <TaskFilter filter={filter} setFilter={setFilter} />
-
-          <TaskList
-            toDos={filteredToDos}
-            onEdit={editTask}
-            onDelete={requestDeleteTask}
-            onToggleComplete={toggleCompleteBgColor}
-          />
-        </>
-      )}
+      {renderContent()}
       <ConfirmModal
         open={showDeleteModal}
         message="Are you sure you want to delete this task?"
